@@ -1,7 +1,8 @@
 import problem_set
 import tkinter
 
-NUM_PROBLEMS = 10
+NUM_PROBLEMS = 10  # todo - make menu to choose number of problems
+# todo - add menu option to select operator types
 
 selected_problems = problem_set.select_problems(NUM_PROBLEMS)
 incorrect = []
