@@ -1,33 +1,33 @@
-import random
+import problems
 import tkinter
 
-NUM_PROBLEMS = 50
+NUM_PROBLEMS = 10
 
-problems = [(x, y) for x in range(1, 11) for y in range(1, 11)]
-selected_problems = random.sample(problems, NUM_PROBLEMS)
+selected_problems = problems.select_problems(NUM_PROBLEMS)
 incorrect = []
 correct = []
 
 
 def handle_submit():
-    expected = str(sum(selected_problems[0]))
-    provided = entry_window.get()
+    attempt = entry_window.get()
     entry_window.delete(0, tkinter.END)
-    problem = selected_problems.pop(0)
-    if expected == provided:
+    problem = selected_problems.pop()
+    if problems.check_answer(problem.key, attempt):
         result["text"] = "Correct!"
         correct.append(problem)
+        problems.update_problem(problem.key, True)
     else:
         result["text"] = "Wrong!"
         incorrect.append(problem)
+        problems.update_problem(problem.key, False)
     remaining["text"] = f"{len(selected_problems)} problems left"
     correct_count["text"] = f"Correct: {len(correct)}"
     incorrect_count["text"] = f"Incorrect: {len(incorrect)}"
     if len(selected_problems) > 0:
-        problem_label["text"] = f"{selected_problems[0][0]} + {selected_problems[0][1]}"
+        problem_label["text"] = selected_problems[-1].problem
     else:
         problem_label["text"] = f"All done"
-        print("\n".join([f"{x} + {y}" for x, y in incorrect]))
+        print("\n".join([problem.problem for problem in incorrect]))
         root.quit()
 
 
@@ -45,12 +45,10 @@ incorrect_count.pack()
 result = tkinter.Label(root, text=" ")
 result.pack()
 
-problem_label = tkinter.Label(
-    root, text=f"{selected_problems[0][0]} + {selected_problems[0][1]}"
-)
+problem_label = tkinter.Label(root, text=selected_problems[-1].problem)
 problem_label.pack()
 
-entry_window = tkinter.Entry(root)
+entry_window = tkinter.Entry(root)  # todo - bind enter to submit
 entry_window.pack()
 
 submit_button = tkinter.Button(root, text="Submit", command=handle_submit)
