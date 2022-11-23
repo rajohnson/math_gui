@@ -1,9 +1,9 @@
-import problems
+import problem_set
 import tkinter
 
 NUM_PROBLEMS = 10
 
-selected_problems = problems.select_problems(NUM_PROBLEMS)
+selected_problems = problem_set.select_problems(NUM_PROBLEMS)
 incorrect = []
 correct = []
 
@@ -12,14 +12,14 @@ def handle_submit():
     attempt = entry_window.get()
     entry_window.delete(0, tkinter.END)
     problem = selected_problems.pop()
-    if problems.check_answer(problem.key, attempt):
+    if problem_set.check_answer(problem.key, attempt):
         result["text"] = "Correct!"
         correct.append(problem)
-        problems.update_problem(problem.key, True)
+        problem_set.update_problem(problem.key, True)
     else:
         result["text"] = "Wrong!"
         incorrect.append(problem)
-        problems.update_problem(problem.key, False)
+        problem_set.update_problem(problem.key, False)
     remaining["text"] = f"{len(selected_problems)} problems left"
     correct_count["text"] = f"Correct: {len(correct)}"
     incorrect_count["text"] = f"Incorrect: {len(incorrect)}"
