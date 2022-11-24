@@ -5,7 +5,7 @@ from typing import List
 Problem = collections.namedtuple("Problem", "key problem answer operator")
 
 
-def get_problem(x, y, operator):
+def _get_problem_text(x, y, operator):
     if operator == "+":
         return f"{x} + {y}"
     elif operator == "-":
@@ -18,7 +18,7 @@ def get_problem(x, y, operator):
         raise ValueError
 
 
-def get_answer(x, y, operator):
+def _get_answer(x, y, operator):
     if operator == "+":
         return f"{x+y}"
     elif operator == "-":
@@ -31,7 +31,7 @@ def get_answer(x, y, operator):
         raise ValueError
 
 
-def use_problem(x, y, operator) -> bool:
+def _use_problem(x, y, operator) -> bool:
     if operator == "+":
         return True
     elif operator == "-":  # problem is x - y, don't want negative answers
@@ -45,14 +45,16 @@ def use_problem(x, y, operator) -> bool:
 
 
 problems = [
-    Problem(key, get_problem(x, y, operator), get_answer(x, y, operator), operator)
+    Problem(
+        key, _get_problem_text(x, y, operator), _get_answer(x, y, operator), operator
+    )
     for key, (x, y, operator) in enumerate(
         (x, y, operator)
         for x in range(1, 13)
         for y in range(1, 13)
         for operator in "+"  # todo - eventually this should be "+-*/"
     )
-    if use_problem(x, y, operator)
+    if _use_problem(x, y, operator)
 ]
 
 
