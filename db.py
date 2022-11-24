@@ -1,21 +1,15 @@
-# import os
-# import sqlite3
-# import sqlalchemy
+from sqlalchemy import create_engine
+from sqlalchemy.orm import declarative_base
+from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy.orm import sessionmaker
 
 # Problem = collections.namedtuple("Problem", "problem answer operator")
 
 DB_PATH = "db/"
 DB_NAME = "problems.sqlite3"
 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import declarative_base
-from sqlalchemy import Column, Integer, String, DateTime
-from sqlalchemy.orm import sessionmaker
-from datetime import datetime
-
 # engine = sqlalchemy.create_engine(f"sqlite:///{DB_PATH}/{DB_NAME}", echo=True)
 engine = create_engine("sqlite:///:memory:", echo=True)
-
 base = declarative_base()
 
 
@@ -34,15 +28,12 @@ class Problem(base):
 
 
 base.metadata.create_all(engine)
-
-
-a_problem = Problem(
-    operator="+", bin=0, last_seen=datetime.now(), problem="2 + 2", answer="4"
-)
-
 Session = sessionmaker(bind=engine)
-session = Session()
-session.add(a_problem)
+# session = Session()
 
-the_problem = session.query(Problem).filter_by(operator="+").first()
-print(the_problem)
+# session.add(
+#     Problem(operator="+", bin=0, last_seen=datetime.now(), problem="2 + 2", answer="4")
+# )
+# session.add(
+#     Problem(operator="-", bin=0, last_seen=datetime.now(), problem="2 - 2", answer="4")
+# )
