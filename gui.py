@@ -51,7 +51,8 @@ problem_label = tkinter.Label(
 )
 problem_label.pack()
 
-entry_window = tkinter.Entry(root)  # todo - bind enter to submit
+entry_window = tkinter.Entry(root)
+entry_window.bind("<Return>", (lambda _: handle_submit()))
 entry_window.pack()
 
 submit_button = tkinter.Button(root, text="Submit", command=handle_submit)
