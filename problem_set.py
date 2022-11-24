@@ -59,7 +59,7 @@ problems = [
 
 
 def select_problems(num_problems: int) -> List[int]:
-    return random.sample(problems, num_problems)
+    return [problem.key for problem in random.sample(problems, num_problems)]
 
 
 def update_problem(key: int, correct: bool) -> None:
@@ -68,3 +68,7 @@ def update_problem(key: int, correct: bool) -> None:
 
 def check_answer(key: int, attempt: str) -> bool:
     return problems[key].answer == attempt
+
+
+def problem_text(key: int) -> str:
+    return problems[key].problem
