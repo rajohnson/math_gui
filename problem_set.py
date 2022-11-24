@@ -11,9 +11,9 @@ def _get_problem_text(x, y, operator):
     elif operator == "-":
         return f"{x} - {y}"
     elif operator == "*":
-        return f"{x} * {y}"
+        return f"{x} × {y}"
     elif operator == "/":  # problem is x*y / x
-        return f"{x*y} / {x}"
+        return f"{x*y} ÷ {x}"
     else:
         raise ValueError
 
