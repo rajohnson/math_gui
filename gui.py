@@ -35,9 +35,11 @@ def handle_submit():
 
 
 root = tkinter.Tk()
+root.geometry("200x180")
+root.title("Math")
 
 remaining = tkinter.Label(root, text=f"{len(selected_problems)} problems left")
-remaining.pack()
+remaining.pack(pady=(10, 0))
 
 correct_count = tkinter.Label(root, text=f"Correct: {len(correct)}")
 correct_count.pack()
@@ -55,9 +57,9 @@ problem_label.pack()
 
 entry_window = tkinter.Entry(root)
 entry_window.bind("<Return>", (lambda _: handle_submit()))
-entry_window.pack()
+entry_window.pack(padx=10)
 
 submit_button = tkinter.Button(root, text="Submit", command=handle_submit)
-submit_button.pack()
+submit_button.pack(pady=10)
 
 tkinter.mainloop()
