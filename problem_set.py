@@ -1,5 +1,6 @@
 import random
 import collections
+from typing import List
 
 Problem = collections.namedtuple("Problem", "key problem answer operator")
 
@@ -55,7 +56,7 @@ problems = [
 ]
 
 
-def select_problems(num_problems: int) -> list[Problem]:
+def select_problems(num_problems: int) -> List[int]:
     return random.sample(problems, num_problems)
 
 
