@@ -1,10 +1,8 @@
 import problem_set
 import tkinter
 
-NUM_PROBLEMS = 10  # todo - make menu to choose number of problems
-OPERATORS = (
-    "+"  # todo - add menu option to select operator types - allowable symbols: '+*-/'
-)
+NUM_PROBLEMS = 50  # todo - make menu to choose number of problems
+OPERATORS = "+-*/"  # todo - add menu option to select operator types - allowable symbols: '+*-/'
 
 selected_problems = problem_set.select_problems(NUM_PROBLEMS, OPERATORS)
 incorrect = []
@@ -12,6 +10,7 @@ correct = []
 
 
 def handle_submit():
+    # todo - block to prevent blank submissions
     attempt = entry_window.get()
     entry_window.delete(0, tkinter.END)
     problem = selected_problems.pop()
