@@ -2,7 +2,7 @@ import random
 import collections
 from typing import List
 
-Problem = collections.namedtuple("Problem", "key problem answer operator")
+Problem = collections.namedtuple("Problem", "problem answer operator")
 
 
 def _get_problem_text(x, y, operator):
@@ -45,21 +45,22 @@ def _use_problem(x, y, operator) -> bool:
 
 
 problems = [
-    Problem(
-        key, _get_problem_text(x, y, operator), _get_answer(x, y, operator), operator
-    )
-    for key, (x, y, operator) in enumerate(
-        (x, y, operator)
-        for x in range(1, 13)
-        for y in range(1, 13)
-        for operator in "+"  # todo - eventually this should be "+-*/"
-    )
+    Problem(_get_problem_text(x, y, operator), _get_answer(x, y, operator), operator)
+    for operator in "+-*/"
+    for x in range(0, 13)
+    for y in range(0, 13)
     if _use_problem(x, y, operator)
 ]
 
 
-def select_problems(num_problems: int) -> List[int]:
-    return [problem.key for problem in random.sample(problems, num_problems)]
+def select_problems(num_problems: int, allowed_operators: str) -> List[int]:
+
+    allowed_problem_keys = [
+        key
+        for key, problem in enumerate(problems)
+        if problem.operator in allowed_operators
+    ]
+    return random.sample(allowed_problem_keys, num_problems)
 
 
 def update_problem(key: int, correct: bool) -> None:

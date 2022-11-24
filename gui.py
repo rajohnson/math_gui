@@ -2,9 +2,11 @@ import problem_set
 import tkinter
 
 NUM_PROBLEMS = 10  # todo - make menu to choose number of problems
-# todo - add menu option to select operator types
+OPERATORS = (
+    "+"  # todo - add menu option to select operator types - allowable symbols: '+*-/'
+)
 
-selected_problems = problem_set.select_problems(NUM_PROBLEMS)
+selected_problems = problem_set.select_problems(NUM_PROBLEMS, OPERATORS)
 incorrect = []
 correct = []
 
