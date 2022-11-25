@@ -6,6 +6,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import sessionmaker
+from datetime import datetime
+import random
 
 # Problem = collections.namedtuple("Problem", "problem answer operator")
 
@@ -16,6 +18,8 @@ DB_PATH = "db/"
 DB_NAME = "problems.sqlite3"
 
 DEFAULT_BIN = 0  # 0 is new/bad
+MAX_BIN = 5
+MIN_BIN = 0
 
 # engine = sqlalchemy.create_engine(f"sqlite:///{DB_PATH}/{DB_NAME}", echo=True)
 engine = create_engine("sqlite:///:memory:", echo=True)
@@ -90,6 +94,9 @@ def create_problems():
                 answer=_get_answer(x, y, operator),
                 operator=operator,
                 bin=DEFAULT_BIN,
+                times_seen=0,
+                times_correct=0,
+                last_seen=datetime.now(),
             )
             for operator in "+-*/"
             for x in range(0, 13)
@@ -106,21 +113,37 @@ if not os.path.isfile(f"{DB_PATH}/{DB_NAME}"):
 
 
 def select_problems(num_problems: int, allowed_operators: str) -> List[int]:
+    # todo - find number in each bin, then choose some from each.
+    session = Session()
+    all_problems = session.query(
+        Problem
+    ).all()  # todo - should filter for operator in SQL, not after query.
     allowed_problem_keys = [
-        key
-        for key, problem in enumerate(problems)
-        if problem.operator in allowed_operators
+        problem.key for problem in all_problems if problem.operator in allowed_operators
     ]
     return random.sample(allowed_problem_keys, num_problems)
 
 
 def update_problem(key: int, correct: bool) -> None:
-    ...  # todo - will assign to the appropriate bin and update the last seen timestamp
+    session = Session()
+    problem = session.query(Problem).filter(Problem.key == key).one()
+    problem.times_seen += 1
+    problem.last_seen = datetime.now()
+    if correct:
+        problem.bin = max(problem.bin - 1, MIN_BIN)
+        problem.times_correct += 1
+    else:
+        problem.bin = max(problem.bin + 1, MAX_BIN)
+    session.commit()
 
 
 def check_answer(key: int, attempt: str) -> bool:
-    return problems[key].answer == attempt
+    session = Session()
+    problem = session.query(Problem).filter(Problem.key == key).one()
+    return problem.answer == attempt
 
 
 def problem_text(key: int) -> str:
-    return problems[key].problem
+    session = Session()
+    problem = session.query(Problem).filter(Problem.key == key).one()
+    return problem.problem
