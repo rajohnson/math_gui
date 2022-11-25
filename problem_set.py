@@ -21,8 +21,13 @@ DEFAULT_BIN = 0  # 0 is new/bad
 MAX_BIN = 5
 MIN_BIN = 0
 
-# engine = sqlalchemy.create_engine(f"sqlite:///{DB_PATH}/{DB_NAME}", echo=True)
-engine = create_engine("sqlite:///:memory:", echo=True)
+create_problem_db = False
+
+if not os.path.isfile(f"{DB_PATH}/{DB_NAME}"):
+    os.makedirs(DB_PATH, exist_ok=True)
+    create_problem_db = True
+engine = create_engine(f"sqlite:///{DB_PATH}/{DB_NAME}", echo=True)
+# engine = create_engine("sqlite:///:memory:", echo=True)
 base = declarative_base()
 
 
@@ -107,7 +112,7 @@ def create_problems():
     session.commit()
 
 
-if not os.path.isfile(f"{DB_PATH}/{DB_NAME}"):
+if create_problem_db:
     print("iniitializing DB")
     create_problems()
 
