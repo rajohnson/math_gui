@@ -9,13 +9,8 @@ from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 import random
 
-# Problem = collections.namedtuple("Problem", "problem answer operator")
-
 DB_PATH = "db/"
-DB_NAME = "problems.sqlite3"
-
-DB_PATH = "db/"
-DB_NAME = "problems.sqlite3"
+DB_NAME = "problems.sqlite"
 
 DEFAULT_BIN = 0  # 0 is new/bad
 MAX_BIN = 5
