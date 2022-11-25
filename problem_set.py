@@ -130,10 +130,10 @@ def update_problem(key: int, correct: bool) -> None:
     problem.times_seen += 1
     problem.last_seen = datetime.now()
     if correct:
-        problem.bin = max(problem.bin - 1, MIN_BIN)
+        problem.bin = min(problem.bin + 1, MAX_BIN)
         problem.times_correct += 1
     else:
-        problem.bin = max(problem.bin + 1, MAX_BIN)
+        problem.bin = max(problem.bin - 1, MIN_BIN)
     session.commit()
 
 
