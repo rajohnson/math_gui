@@ -1,7 +1,8 @@
 import problem_set
-import tkinter
+from tkinter import *
+from tkinter.ttk import *
 
-NUM_PROBLEMS = 50  # todo - make menu to choose number of problems
+NUM_PROBLEMS = 5  # todo - make menu to choose number of problems
 OPERATORS = (
     "+"  # todo - add menu option to select operator types - allowable symbols: '+*-/'
 )
@@ -15,7 +16,7 @@ def handle_submit():
     attempt = entry_window.get()
     if attempt == "":
         return
-    entry_window.delete(0, tkinter.END)
+    entry_window.delete(0, END)
     problem = selected_problems.pop()
     if problem_set.check_answer(problem, attempt):
         result["text"] = "Correct!"
@@ -36,32 +37,30 @@ def handle_submit():
         root.quit()
 
 
-root = tkinter.Tk()
+root = Tk()
 root.geometry("200x180")
 root.title("Math")
 
-remaining = tkinter.Label(root, text=f"{len(selected_problems)} problems left")
+remaining = Label(root, text=f"{len(selected_problems)} problems left")
 remaining.pack(pady=(10, 0))
 
-correct_count = tkinter.Label(root, text=f"Correct: {len(correct)}")
+correct_count = Label(root, text=f"Correct: {len(correct)}")
 correct_count.pack()
 
-incorrect_count = tkinter.Label(root, text=f"Incorrect: {len(incorrect)}")
+incorrect_count = Label(root, text=f"Incorrect: {len(incorrect)}")
 incorrect_count.pack()
 
-result = tkinter.Label(root, text=" ")
+result = Label(root, text=" ")
 result.pack()
 
-problem_label = tkinter.Label(
-    root, text=problem_set.problem_text(selected_problems[-1])
-)
+problem_label = Label(root, text=problem_set.problem_text(selected_problems[-1]))
 problem_label.pack()
 
-entry_window = tkinter.Entry(root)
+entry_window = Entry(root)
 entry_window.bind("<Return>", (lambda _: handle_submit()))
-entry_window.pack(padx=10)
+entry_window.pack(padx=10, pady=(5, 0))
 
-submit_button = tkinter.Button(root, text="Submit", command=handle_submit)
+submit_button = Button(root, text="Submit", command=handle_submit)
 submit_button.pack(pady=10)
 
-tkinter.mainloop()
+mainloop()
