@@ -1,5 +1,3 @@
-# import random
-# import collections
 from typing import List
 import os
 from sqlalchemy import create_engine
