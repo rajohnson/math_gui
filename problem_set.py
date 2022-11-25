@@ -114,12 +114,12 @@ if create_problem_db:
 def select_problems(num_problems: int, allowed_operators: str) -> List[int]:
     # todo - find number in each bin, then choose some from each.
     session = Session()
-    all_problems = session.query(
-        Problem
-    ).all()  # todo - should filter for operator in SQL, not after query.
-    allowed_problem_keys = [
-        problem.key for problem in all_problems if problem.operator in allowed_operators
-    ]
+    all_problems = (
+        session.query(Problem)
+        .filter(Problem.operator.in_([op for op in allowed_operators]))
+        .all()
+    )
+    allowed_problem_keys = [problem.key for problem in all_problems]
     return random.sample(allowed_problem_keys, num_problems)
 
 
