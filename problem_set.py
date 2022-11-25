@@ -6,13 +6,24 @@ from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 import random
+import numpy
 
 DB_PATH = "db/"
 DB_NAME = "problems.sqlite"
 
 DEFAULT_BIN = 0  # 0 is new/bad
-MAX_BIN = 5
+MAX_BIN = 25
 MIN_BIN = 0
+distribution_mean = MIN_BIN + (MAX_BIN - MIN_BIN) // 2
+distribution_st_dev = MIN_BIN + (MAX_BIN - MIN_BIN) / 3.75
+
+
+def random_bin():
+    result = numpy.random.normal(distribution_mean, distribution_st_dev)
+    while not (MIN_BIN <= result <= MAX_BIN):
+        result = numpy.random.normal(distribution_mean, distribution_st_dev)
+    return int(result)
+
 
 create_problem_db = False
 
@@ -110,15 +121,29 @@ if create_problem_db:
 
 
 def select_problems(num_problems: int, allowed_operators: str) -> List[int]:
-    # todo - find number in each bin, then choose some from each.
     session = Session()
-    all_problems = (
-        session.query(Problem)
-        .filter(Problem.operator.in_([op for op in allowed_operators]))
-        .all()
-    )
-    allowed_problem_keys = [problem.key for problem in all_problems]
-    return random.sample(allowed_problem_keys, num_problems)
+    selected = []
+    bins = [
+        [
+            problem.key
+            for problem in session.query(Problem)
+            .filter(Problem.operator.in_([op for op in allowed_operators]))
+            .filter(Problem.bin == bin_num)
+            .order_by(Problem.last_seen.desc())
+            .limit(num_problems)
+            .all()
+        ]
+        for bin_num in range(MIN_BIN, MAX_BIN + 1)
+    ]
+
+    while len(selected) < num_problems:
+        bin_index = random_bin()
+        if len(bins[bin_index]) > 0:
+            selected.append(bins[bin_index].pop(0))
+
+    random.shuffle(selected)
+
+    return selected
 
 
 def update_problem(key: int, correct: bool) -> None:
@@ -144,3 +169,11 @@ def problem_text(key: int) -> str:
     session = Session()
     problem = session.query(Problem).filter(Problem.key == key).one()
     return problem.problem
+
+
+if __name__ == "__main__":
+    import matplotlib.pyplot as plt
+
+    nums = [random_bin() for _ in range(100000)]
+    plt.hist(nums, bins=MAX_BIN - MIN_BIN)
+    plt.show()
