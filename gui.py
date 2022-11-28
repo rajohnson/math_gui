@@ -2,13 +2,14 @@ import problem_set
 from tkinter import *
 from tkinter.ttk import *
 
-NUM_PROBLEMS = 50  # todo - make menu to choose number of problems
+NUM_PROBLEMS = 2  # todo - make menu to choose number of problems
+REPEATS = 3
 OPERATORS = (
     "+"  # todo - add menu option to select operator types - allowable symbols: '+*-/'
 )
 # todo - menu to choose user, create seperate table for each user.
 
-selected_problems = problem_set.select_problems(NUM_PROBLEMS, OPERATORS)
+selected_problems = problem_set.select_problems(NUM_PROBLEMS, OPERATORS, REPEATS)
 incorrect = []
 correct = []
 

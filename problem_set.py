@@ -120,7 +120,9 @@ if create_problem_db:
     create_problems()
 
 
-def select_problems(num_problems: int, allowed_operators: str) -> List[int]:
+def select_problems(
+    num_problems: int, allowed_operators: str, repeat_n_times: int = 1
+) -> List[int]:
     session = Session()
     selected = []
     bins = [
@@ -141,6 +143,7 @@ def select_problems(num_problems: int, allowed_operators: str) -> List[int]:
         if len(bins[bin_index]) > 0:
             selected.append(bins[bin_index].pop(0))
 
+    selected *= repeat_n_times
     random.shuffle(selected)
 
     return selected
