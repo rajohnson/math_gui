@@ -1,11 +1,11 @@
+
 import problem_set
 from tkinter import *
 from tkinter.ttk import *
-
-NUM_PROBLEMS = 2  # todo - make menu to choose number of problems
-REPEATS = 3
+NUM_PROBLEMS = 50  # todo - make menu to choose number of problems
+REPEATS = 1
 OPERATORS = (
-    "+"  # todo - add menu option to select operator types - allowable symbols: '+*-/'
+    "*"
 )
 # todo - menu to choose user, create seperate table for each user.
 
