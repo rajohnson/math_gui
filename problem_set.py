@@ -8,6 +8,21 @@ from datetime import datetime
 import random
 import numpy
 
+"""
+This module implements a Leitner box based spaced repetition system
+for memorizing simple arithmetic facts. Several boxes exist that 
+roughly correspond to the difficulty of the problem. Each time that
+the problem is seen it is moved to a new box, the next higher if it
+was correctly answered or the next lower box if it was incorrect.
+
+Each time that a new set of problems is selected the oldest problem 
+from each box is selected first. Which box to use if selected using
+a gaussian that is trimmed to fit the desired number of bins and 
+then truncated into integers. 
+
+https://en.wikipedia.org/wiki/Leitner_system
+"""
+
 DB_PATH = "db/"
 DB_NAME = "problems.sqlite"
 
