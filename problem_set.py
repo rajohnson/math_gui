@@ -114,6 +114,7 @@ def _use_problem(x, y, operator) -> bool:
 
 def create_problems():
     session = Session()
+    # add the alegbraic problems
     session.add_all(
         [
             Problem(
@@ -131,6 +132,7 @@ def create_problems():
             if _use_problem(x, y, operator)
         ]
     )
+    # add the squares (done separately because a different range is used)
     session.add_all(
         [
             Problem(
