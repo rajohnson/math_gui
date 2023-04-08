@@ -153,6 +153,11 @@ def select_problems(
         for bin_num in range(MIN_BIN, MAX_BIN + 1)
     ]
 
+    if sum([len(bin) for bin in bins]) < num_problems:
+        num_problems = sum(
+            [len(bin) for bin in bins]
+        )  # limit number of problems to the number available
+
     while len(selected) < num_problems:
         bin_index = random_bin()
         if len(bins[bin_index]) > 0:
