@@ -1,15 +1,15 @@
-
 import problem_set
 from tkinter import *
 from tkinter.ttk import *
+
 NUM_PROBLEMS = 50  # todo - make menu to choose number of problems
-REPEATS = 1
-OPERATORS = (
-    "*"
-)
+REPEATS = 2  # todo - make menu to choose number of repeats
+OPERATORS = "^"
 # todo - menu to choose user, create seperate table for each user.
 
-selected_problems = problem_set.select_problems(NUM_PROBLEMS, OPERATORS, REPEATS)
+selected_problems = problem_set.select_problems(
+    NUM_PROBLEMS, OPERATORS, REPEATS
+)
 incorrect = []
 correct = []
 
@@ -55,7 +55,9 @@ incorrect_count.pack()
 result = Label(root, text=" ")
 result.pack()
 
-problem_label = Label(root, text=problem_set.problem_text(selected_problems[-1]))
+problem_label = Label(
+    root, text=problem_set.problem_text(selected_problems[-1])
+)
 problem_label.pack()
 
 entry_window = Entry(root)

@@ -78,6 +78,8 @@ def _get_problem_text(x, y, operator):
         return f"{x} × {y}"
     elif operator == "/":  # problem is x*y / x
         return f"{x*y} ÷ {x}"
+    elif operator == "^":
+        return f"{x}²"
     else:
         raise ValueError
 
@@ -91,6 +93,8 @@ def _get_answer(x, y, operator):
         return f"{x*y}"
     elif operator == "/":  # problem is x*y / x
         return f"{y}"
+    elif operator == "^":
+        return f"{x**2}"
     else:
         raise ValueError
 
@@ -125,6 +129,21 @@ def create_problems():
             for x in range(0, 13)
             for y in range(0, 13)
             if _use_problem(x, y, operator)
+        ]
+    )
+    session.add_all(
+        [
+            Problem(
+                problem=_get_problem_text(x, x, operator),
+                answer=_get_answer(x, x, operator),
+                operator=operator,
+                bin=DEFAULT_BIN,
+                times_seen=0,
+                times_correct=0,
+                last_seen=datetime.now(),
+            )
+            for operator in "^"
+            for x in range(0, 20 + 1)
         ]
     )
     session.commit()
