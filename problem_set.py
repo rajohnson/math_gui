@@ -145,7 +145,7 @@ def create_problems():
                 last_seen=datetime.now(),
             )
             for operator in "^"
-            for x in range(0, 20 + 1)
+            for x in range(0, 21 + 1)
         ]
     )
     session.commit()
