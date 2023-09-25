@@ -45,7 +45,7 @@ create_problem_db = False
 if not os.path.isfile(f"{DB_PATH}/{DB_NAME}"):
     os.makedirs(DB_PATH, exist_ok=True)
     create_problem_db = True
-engine = create_engine(f"sqlite:///{DB_PATH}/{DB_NAME}", echo=True)
+engine = create_engine(f"sqlite:///{DB_PATH}/{DB_NAME}", echo=False)
 base = declarative_base()
 
 
