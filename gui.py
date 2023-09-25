@@ -28,6 +28,10 @@ def handle_submit():
         result["text"] = "Wrong!"
         incorrect.append(problem)
         problem_set.update_problem(problem, False)
+        print(
+            f"mistake: {attempt} is not the answer to "
+            f"{problem_set.problem_text(problem)}"
+        )
     remaining["text"] = f"{len(selected_problems)} problems left"
     correct_count["text"] = f"Correct: {len(correct)}"
     incorrect_count["text"] = f"Incorrect: {len(incorrect)}"
