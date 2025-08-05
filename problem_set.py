@@ -149,6 +149,7 @@ def create_problems():
         ]
     )
     session.commit()
+    session.close()
 
 
 if create_problem_db:
@@ -187,6 +188,8 @@ def select_problems(
     selected *= repeat_n_times
     random.shuffle(selected)
 
+    session.close() # could probably close a little sooner in this case
+
     return selected
 
 
@@ -201,17 +204,20 @@ def update_problem(key: int, correct: bool) -> None:
     else:
         problem.bin = max(problem.bin - 1, MIN_BIN)
     session.commit()
+    session.close()
 
 
 def check_answer(key: int, attempt: str) -> bool:
     session = Session()
     problem = session.query(Problem).filter(Problem.key == key).one()
+    session.close()
     return problem.answer == attempt
 
 
 def problem_text(key: int) -> str:
     session = Session()
     problem = session.query(Problem).filter(Problem.key == key).one()
+    session.close()
     return problem.problem
 
 
